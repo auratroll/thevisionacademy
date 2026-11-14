@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9WMJ3S6YQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V9WMJ3S6YQ');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Vision Academy Results - BIEK Karachi</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --main-dark: #0B1A3A;
+      --main-light: #D4AF37;
+      --cream-bg: #F3E9CC;
+      --bg-color: #ffffff;
+      --wa-green: #25D366;
+      --card-shadow: 0 25px 50px -12px rgba(27, 54, 37, 0.15);
+    }
+
+    /* Result Card Styling */
+    .portal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 460px;
+      border-radius: 24px;
+      padding: 35px 28px;
+      box-shadow: var(--card-shadow);
+      border: 2px solid var(--cream-bg);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .portal-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--main-dark), var(--main-light));
+    }
+
+    .top-banner {
+      background: var(--cream-bg);
+      border: 1px solid var(--main-light);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .top-banner p {
+      font-size: 12px;
+      font-weight: bold;
+      color: var(--main-dark);
+      line-height: 1.3;
+    }
+
+    .btn-banner {
+      background: var(--main-dark);
+      color: var(--cream-bg);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 8px;
+      white-space: nowrap;
+      box-shadow: 0 4px 10px rgba(27, 54, 37, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .btn-banner:hover {
+      transform: scale(1.05);
+      background: #070F24;
+    }
+
+    .logo-wrapper {
+      display: inline-block;
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .logo-container {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      border-radius: 50%;
+      padding: 5px;
+      background: linear-gradient(135deg, var(--main-dark), var(--main-light));
+      box-shadow: 0 10px 25px rgba(27, 54, 37, 0.25);
+      animation: float 4s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+    }
+
+    .portal-card h1 {
+      color: var(--main-dark);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      color: #64748b;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 25px;
+      line-height: 1.4;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--main-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-group select, .form-group input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--cream-bg);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--main-dark);
+      outline: none;
+      background: #f8fafc;
+      transition: all 0.25s ease;
+    }
+
+    .form-group select:focus, .form-group input[type="text"]:focus {
+      border-color: var(--main-light);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(166, 198, 101, 0.2);
+    }
+
+    .btn-animated {
+      position: relative;
+      width: 100%;
+      background: linear-gradient(135deg, var(--main-dark) 0%, #070F24 100%);
+      color: var(--cream-bg);
+      border: none;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border-radius: 12px;
+      cursor: pointer;
+      text-transform: uppercase;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(27, 54, 37, 0.35), inset 0 -4px 0 rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+      margin-top: 8px;
+    }
+
+    .btn-animated::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent, rgba(255,255,255,0.15), transparent);
+      transform: rotate(30deg);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) rotate(30deg); }
+      100% { transform: translateX(100%) rotate(30deg); }
+    }
+
+    .btn-animated:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(27, 54, 37, 0.45), inset 0 -4px 0 rgba(0,0,0,0.2);
+    }
+
+    .btn-whatsapp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--wa-green);
+      color: white;
+      text-decoration: none;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 12px;
+      margin-top: 12px;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      background: #20ba5a;
+      box-shadow: 0 8px 22px rgba(37, 211, 102, 0.4);
+    }
+
+    .result-box {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 16px;
+      display: none;
+      text-align: left;
+      animation: slideUp 0.35s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-box.success {
+      background: #ffffff;
+      border: 2px solid var(--main-light);
+      box-shadow: 0 10px 30px rgba(166, 198, 101, 0.2);
+    }
+
+    .result-box.error {
+      background: #fff5f5;
+      border: 2px solid #ef4444;
+      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
+    }
+  </style>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta name="theme-color" content="#0B1A3A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body class="bg-white text-slate-800 min-h-screen flex flex-col justify-between overflow-x-hidden" style="font-family: 'Poppins', system-ui, sans-serif;">
+
+  <!-- VIP Navigation Bar -->
+  <header class="w-full bg-white shadow-sm border-b border-[#F3E9CC] py-3 px-4 sm:px-6 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-2 sm:gap-3">
+          <img src="logo.png" alt="The Vision Academy Logo" class="w-10 h-10 sm:w-12 sm:h-12 object-contain rounded-lg drop-shadow-md">
+          <span class="font-bold text-lg sm:text-xl text-[#0B1A3A] tracking-wide uppercase">The Vision Academy</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden xl:flex items-center gap-5 whitespace-nowrap">
+        <a href="index.html" class="font-bold text-slate-700 hover:text-[#D4AF37] transition-all">Home</a>
+        <a href="about.html" class="font-bold text-slate-700 hover:text-[#D4AF37] transition-all">About Us</a>
+        <a href="contact.html" class="font-bold text-slate-700 hover:text-[#D4AF37] transition-all">Contact Us</a>
+        <a href="test.html" class="font-bold text-[#0B1A3A] hover:text-[#D4AF37] transition-all flex items-center gap-1 ">
+          <i class="fa-solid fa-pen-to-square"></i> Test Session
+        </a>
+        <a href="result.html" class="font-bold text-[#0B1A3A] hover:text-[#D4AF37] transition-all flex items-center gap-1 border-b-2 border-[#0B1A3A]">
+          <i class="fa-solid fa-square-poll-vertical"></i> Result Portal
+        </a>
+        <a href="supplystuff.html" class="font-bold text-white bg-red-600 hover:bg-red-700 px-4 py-1.5 rounded-lg transition-all flex items-center gap-2 shadow-md animate-pulse">
+          <i class="fa-solid fa-file-circle-exclamation"></i> Supply Portal
+        </a>
+      </nav>
+      
+      <div class="flex items-center gap-2 sm:gap-4">
+        <button id="mobile-menu-btn" class="xl:hidden text-[#0B1A3A] hover:text-[#D4AF37] p-2 focus:outline-none">
+          <i class="fa-solid fa-ellipsis-vertical text-2xl px-2"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden xl:hidden border-t border-[#F3E9CC] mt-3 pt-3 pb-2 flex flex-col gap-3 px-4">
+      <a href="index.html" class="font-bold text-slate-700 py-2 px-3 rounded-lg hover:bg-[#F3E9CC]/30"><i class="fa-solid fa-house mr-2 w-4"></i> Home</a>
+      <a href="about.html" class="font-bold text-slate-700 py-2 px-3 rounded-lg hover:bg-[#F3E9CC]/30"><i class="fa-solid fa-circle-info mr-2 w-4"></i> About Us</a>
+      <a href="contact.html" class="font-bold text-slate-700 py-2 px-3 rounded-lg hover:bg-[#F3E9CC]/30"><i class="fa-solid fa-envelope mr-2 w-4"></i> Contact Us</a>
+      <a href="test.html" class="font-bold text-[#0B1A3A] py-2 px-3 rounded-lg bg-[#F3E9CC]/50 border border-[#F3E9CC]"><i class="fa-solid fa-pen-to-square mr-2 w-4 text-[#D4AF37]"></i> Test Session</a>
+        <a href="result.html" class="font-bold text-[#0B1A3A] py-2 px-3 rounded-lg bg-[#F3E9CC]/50 border border-[#F3E9CC]"><i class="fa-solid fa-square-poll-vertical mr-2 w-4 text-[#D4AF37]"></i> Result Portal</a>
+      <div class="border-t border-[#F3E9CC] my-1"></div>
+      <a href="supplystuff.html" class="font-bold text-red-600 bg-red-50 py-2 px-3 rounded-lg hover:bg-red-100 flex items-center gap-2">
+        <i class="fa-solid fa-file-circle-exclamation w-4"></i> Supply Portal
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow flex items-center justify-center py-12 px-4 relative">
+    
+    <div class="portal-card">
+      <div class="top-banner">
+        <p>Latest educational updates &<br>result announcements.</p>
+        <a href="https://whatsapp.com/channel/0029Vam5DGJBPzjSPNeP7N1s" target="_blank" class="btn-banner">Join WhatsApp</a>
+      </div>
+
+      <div class="logo-wrapper">
+        <div class="logo-container">
+          <img src="logo.png" alt="Logo">
+        </div>
+      </div>
+
+      <h1>Result Portal</h1>
+      <p class="subtitle">Check your BIEK Karachi board results instantly.</p>
+
+      <form id="result-form">
+        <div class="form-group">
+          <label for="group">Select Field (Class 11)</label>
+          <select id="group" required>
+            <option value="" disabled selected>Choose your field</option>
+            <option value="sciencegeneral(cs)">Science General (CS)</option>
+            <option value="sciencepremedical">Science Pre-Medical</option>
+            <option value="commerceregular">Commerce Regular</option>
+            <option value="commerceprivate">Commerce Private</option>
+            <option value="humanitiesregular">Humanities Regular</option>
+            <option value="humanitiesprivate">Humanities Private</option>
+            <option value="homeeconomics">Home Economics</option>
+            <option value="specialcandidates">Special Candidates</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="roll-no">Roll Number</label>
+          <input type="text" id="roll-no" placeholder="Enter your roll number" required pattern="[0-9\s]{5,10}">
+        </div>
+
+        <button type="submit" class="btn-animated" id="submit-btn">
+          <i class="fa-solid fa-magnifying-glass"></i> Check Result
+        </button>
+      </form>
+
+      <a href="https://whatsapp.com/channel/0029Vam5DGJBPzjSPNeP7N1s" target="_blank" class="btn-whatsapp">
+        <i class="fa-brands fa-whatsapp text-xl"></i> Get Results on WhatsApp
+      </a>
+
+      <!-- Result Display Area -->
+      <div id="result-box" class="result-box">
+        <div id="result-content"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- VIP Professional Footer -->
+  <footer class="bg-[#0B1A3A] text-[#F3E9CC] pt-12 pb-6 border-t-4 border-[#D4AF37]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        
+        <div class="col-span-1 md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="logo.png" alt="The Vision Academy" class="w-14 h-14 object-contain bg-white rounded-full p-1.5 border-2 border-[#D4AF37]">
+            <span class="font-extrabold text-2xl sm:text-3xl tracking-wide uppercase text-white">The Vision Academy</span>
+          </div>
+          <p class="text-sm text-[#F3E9CC]/90 leading-relaxed font-bold pr-0 md:pr-4 text-justify">
+            A student-first educational portal. We provide authentic study materials, latest news, target papers, and results for students across Sindh and Pakistan. Empowering students for a brighter tomorrow.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-extrabold text-white mb-4 border-b border-[#D4AF37]/30 pb-2 uppercase tracking-wide">Quick Links</h4>
+          <ul class="space-y-2 text-sm font-bold">
+            <li><a href="index.html" class="hover:text-[#D4AF37] transition-colors flex items-center gap-2"><i class="fa-solid fa-angle-right text-[#D4AF37]"></i> Home Portal</a></li>
+            <li><a href="about.html" class="hover:text-[#D4AF37] transition-colors flex items-center gap-2"><i class="fa-solid fa-angle-right text-[#D4AF37]"></i> About Us</a></li>
+            <li><a href="contact.html" class="hover:text-[#D4AF37] transition-colors flex items-center gap-2"><i class="fa-solid fa-angle-right text-[#D4AF37]"></i> Contact Support</a></li>
+            <li><a href="test.html" class="text-[#D4AF37] transition-colors flex items-center gap-2"><i class="fa-solid fa-angle-right text-white"></i> Test Session</a></li>
+        <li><a href="result.html" class="text-[#D4AF37] transition-colors flex items-center gap-2"><i class="fa-solid fa-angle-right text-white"></i> Result Portal</a></li>
+            <li><a href="supplystuff.html" class="hover:text-red-400 text-red-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-angle-right text-red-500"></i> Supply Portal</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-extrabold text-white mb-4 border-b border-[#D4AF37]/30 pb-2 uppercase tracking-wide">Connect With Us</h4>
+          <div class="flex flex-col gap-3 text-sm font-bold mb-5">
+            <a href="mailto:info@gumnaameducation.com" class="hover:text-[#D4AF37] transition-colors flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-[#D4AF37]"></i> info@gumnaameducation.com
+            </a>
+            <span class="flex items-center gap-2">
+              <i class="fa-solid fa-location-dot text-[#D4AF37]"></i> Karachi, Sindh, Pakistan
+            </span>
+          </div>
+          <div class="flex gap-4">
+            <a href="https://whatsapp.com/channel/0029Vam5DGJBPzjSPNeP7N1s" target="_blank" class="w-10 h-10 rounded-full bg-[#F3E9CC]/10 flex items-center justify-center hover:bg-[#25D366] hover:text-white transition-all shadow-md"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="border-t border-[#F3E9CC]/20 pt-6 mt-4 flex flex-col md:flex-row justify-between items-center text-xs font-bold opacity-80">
+        <p>© 2026 The Vision Academy. All Rights Reserved.</p>
+        <p class="mt-2 md:mt-0 tracking-wide text-[11px]">DEVELOPED WITH <i class="fa-solid fa-heart text-red-500 mx-1 animate-pulse"></i> FOR STUDENTS OF PAKISTAN</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Mobile Menu Toggle Script
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuBtn?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Grading System
+    function calculateGrade(percentage) {
+      if (percentage >= 96) return 'A++'; 
+      if (percentage >= 91) return 'A+';  
+      if (percentage >= 86) return 'A';   
+      if (percentage >= 81) return 'B++'; 
+      if (percentage >= 76) return 'B+';  
+      if (percentage >= 71) return 'B';   
+      if (percentage >= 61) return 'C+';  
+      if (percentage >= 40) return 'D';   
+      return 'U';                         
+    }
+
+    // Result Check Logic
+    document.getElementById('result-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const selectedGroup = document.getElementById('group').value;
+      const rollNoInput = document.getElementById('roll-no').value.trim();
+      const cleanRollNo = rollNoInput.replace(/\D/g, ''); // User ka roll number safai karke sirf digits bacha liye
+      const resultBox = document.getElementById('result-box');
+      const resultContent = document.getElementById('result-content');
+      const btn = document.getElementById('submit-btn');
+
+      if (!cleanRollNo || !selectedGroup) return;
+
+      // Show loading UI
+      resultBox.style.display = 'block';
+      resultBox.className = 'result-box'; 
+      resultContent.innerHTML = '<div style="text-align: center; color: var(--main-dark); font-weight: bold;"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><br>Fetching gazette data...</div>';
+      
+      const originalBtnHtml = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking...';
+      btn.disabled = true;
+
+      try {
+        let textData = '';
+        
+        // Smart Data Fetcher: Pehle TXT check karega, agar na mili tou JSON check karega
+        try {
+            const resTxt = await fetch(`${selectedGroup}.txt`);
+            if (resTxt.ok) {
+                textData = await resTxt.text();
+            } else {
+                throw new Error('TXT not found');
+            }
+        } catch (err) {
+            const resJson = await fetch(`${selectedGroup}.json`);
+            if (resJson.ok) {
+                const rawJson = await resJson.json();
+                textData = JSON.stringify(rawJson); // JSON file ko bhi properly text mein convert kardega search k liye
+            } else {
+                throw new Error('Result file server par mojood nahi hai. Dobara try karein.');
+            }
+        }
+
+        let studentData = [];
+
+        // ADVANCED UNIVERSAL REGEX: Yeh spaces aur length (5 ya 6 digits) ko accurately handle karta hai
+        // Matches e.g. "451001", "496 005 (350)", "41 001 (407)", "41001" etc.
+        const regex = /(?:^|[^0-9a-zA-Z])(\d[\d\s]{3,8}\d)(?:[^\da-zA-Z]*\(\s*(\d{1,4})\s*\))?/g;
+        let match;
+        
+        while ((match = regex.exec(textData)) !== null) {
+            let extractedRoll = match[1].replace(/\D/g, ''); // Extract hue number se space nikaal kar safai kardi
+            
+            // Sirf 5 aur 6 digit walay asil roll numbers ko array mein daalna hai
+            if (extractedRoll.length === 5 || extractedRoll.length === 6) {
+                studentData.push({
+                    rollNo: extractedRoll,
+                    marks: match[2] ? Number(match[2]) : null
+                });
+            }
+        }
+
+        // Deduplicate students array to fix ranking bugs
+        let uniqueStudents = new Map();
+        studentData.forEach(s => {
+           if(!uniqueStudents.has(s.rollNo) || (uniqueStudents.get(s.rollNo).marks === null && s.marks !== null)){
+               uniqueStudents.set(s.rollNo, s);
+           }
+        });
+        studentData = Array.from(uniqueStudents.values());
+
+        // Find exact student by roll number
+        const student = studentData.find(s => s.rollNo === cleanRollNo);
+        
+        if (student) {
+          const obtainedMarks = student.marks;
+          const totalMarksAmount = 550; // Total Marks set to 550
+
+          let percentageDisplay = "N/A";
+          let grade = "Pass";
+          let gradeColor = "var(--wa-green)";
+          
+          if (obtainedMarks !== null) {
+            const percentage = ((obtainedMarks / totalMarksAmount) * 100).toFixed(2);
+            percentageDisplay = percentage + '%';
+            grade = calculateGrade(parseFloat(percentage));
+            gradeColor = grade === 'U' ? '#ef4444' : 'var(--wa-green)';
+          }
+
+          let rank = "N/A";
+          let totalStudents = studentData.filter(s => s.marks !== null).length;
+          
+          if (obtainedMarks !== null) {
+            const sortedData = studentData.filter(s => s.marks !== null).sort((a, b) => b.marks - a.marks);
+            const rankIndex = sortedData.findIndex(s => s.rollNo === cleanRollNo);
+            if (rankIndex !== -1) rank = rankIndex + 1;
+          }
+
+          resultBox.classList.add('success');
+          resultContent.innerHTML = `
+            <h3 style="color: var(--main-dark); font-weight: 800; font-size: 18px; margin-bottom: 8px; text-transform: uppercase;">
+              <i class="fa-solid fa-circle-check" style="color: var(--main-light);"></i> Result Found!
+            </h3>
+            <div style="background: #f8fafc; padding: 15px; border-radius: 12px; margin-top: 10px; border: 1px solid #e2e8f0;">
+              
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 10px;">
+                <div>
+                  <p style="color: #64748b; font-size: 12px; font-weight: bold; text-transform: uppercase;">Roll Number</p>
+                  <p style="color: var(--main-dark); font-size: 18px; font-weight: 900;">${rollNoInput}</p>
+                </div>
+                <div style="text-align: right;">
+                  <p style="color: #64748b; font-size: 12px; font-weight: bold; text-transform: uppercase;">Field Rank</p>
+                  <p style="color: #0284c7; font-size: 18px; font-weight: 900;">#${rank} <span style="font-size: 12px; color: #64748b;">/ ${totalStudents}</span></p>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <p style="color: #333; font-size: 15px; font-weight: bold;">Marks:</p>
+                <p style="color: var(--main-dark); font-size: 15px; font-weight: bold;">${obtainedMarks !== null ? obtainedMarks + ' / ' + totalMarksAmount : 'Passed (Marks N/A)'}</p>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <p style="color: #333; font-size: 15px; font-weight: bold;">Percentage:</p>
+                <p style="color: var(--main-dark); font-size: 15px; font-weight: bold;">${percentageDisplay}</p>
+              </div>
+
+              <div style="background: #ffffff; padding: 10px; border-radius: 8px; text-align: center; border: 1px dashed #cbd5e1; margin-top: 12px;">
+                <p style="color: #333; font-size: 14px; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Overall Grade</p>
+                <p style="color: ${gradeColor}; font-size: 26px; font-weight: 900; line-height: 1;">${grade}</p>
+              </div>
+
+            </div>
+          `;
+        } else {
+          // PROPER FAIL MESSAGE SECTION
+          resultBox.classList.add('error');
+          resultContent.innerHTML = `
+            <h3 style="color: #ef4444; font-weight: 800; font-size: 18px; margin-bottom: 8px; text-transform: uppercase;">
+              <i class="fa-solid fa-circle-xmark"></i> Result Not Found
+            </h3>
+            <div style="background: #fff5f5; padding: 15px; border-radius: 12px; margin-top: 10px; border: 1px solid #fecaca; text-align: center;">
+               <p style="color: #333; font-size: 16px; font-weight: bold; margin-bottom: 5px;">
+                 Roll Number: <span style="color: #ef4444;">${rollNoInput}</span>
+               </p>
+               <h2 style="color: #ef4444; font-size: 26px; font-weight: 900; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px;">
+                 YOU ARE FAIL
+               </h2>
+               <p style="color: #7f1d1d; font-size: 13px; font-weight: bold; margin-top: 8px;">
+                 Your roll number was not found in the passing gazette. Best of luck for next time!
+               </p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        resultBox.classList.add('error');
+        resultContent.innerHTML = `
+          <h3 style="color: #ef4444; font-weight: 800; font-size: 16px; margin-bottom: 5px;">Error</h3>
+          <p style="color: #ef4444; font-size: 13px; font-weight: bold;">${error.message}</p>
+        `;
+      } finally {
+        btn.innerHTML = originalBtnHtml;
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

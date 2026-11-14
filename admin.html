@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - The Vision Academy</title>
+  <meta name="robots" content="noindex, nofollow">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Styling to hide/show custom dropdowns */
+    .dropdown-menu { display: none; }
+    .dropdown-menu.show { display: block; }
+  </style>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta name="theme-color" content="#0B1A3A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body class="bg-white text-slate-800 min-h-screen flex flex-col justify-between" style="font-family: 'Poppins', system-ui, sans-serif;">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-[#F3E9CC] py-4 px-6 flex justify-between items-center shadow-sm sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <img src="logo.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow-md">
+      <span class="font-bold text-lg text-[#0B1A3A] tracking-wide">Vision Academy Admin</span>
+    </div>
+    <a href="index.html" class="text-sm font-bold text-[#D4AF37] hover:text-[#0B1A3A] transition-all"><i class="fa-solid fa-arrow-left mr-1"></i> Go to Website</a>
+  </header>
+
+  <!-- Main Admin Section -->
+  <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+    
+    <!-- Login Card (If Not Admin) -->
+    <div id="admin-login-card" class="bg-white p-8 rounded-3xl shadow-2xl border border-[#F3E9CC] max-w-md mx-auto transform transition-all mt-10">
+      <div class="text-center mb-6">
+        <i class="fa-solid fa-shield-halved text-4xl text-[#0B1A3A] mb-3"></i>
+        <h2 class="text-2xl font-bold text-[#0B1A3A] mb-1">Admin Secure Login</h2>
+        <p class="text-xs text-slate-500 font-semibold uppercase tracking-widest">Authorized Access Only</p>
+      </div>
+      
+      <form id="admin-login-form" class="space-y-5">
+        <div>
+          <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Admin Email</label>
+          <input type="email" id="admin-username" placeholder="admin@gmail.com" autocomplete="username" required class="w-full px-4 py-3 rounded-xl border border-[#F3E9CC] focus:outline-none focus:border-[#0B1A3A] focus:ring-1 focus:ring-[#0B1A3A] bg-[#F3E9CC]/10">
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Password</label>
+          <input type="password" id="admin-password" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl border border-[#F3E9CC] focus:outline-none focus:border-[#0B1A3A] focus:ring-1 focus:ring-[#0B1A3A] bg-[#F3E9CC]/10">
+        </div>
+        <button type="submit" class="w-full bg-[#0B1A3A] hover:bg-[#070F24] text-[#F3E9CC] font-bold py-3.5 rounded-xl shadow-lg transition-all text-sm sm:text-base tracking-wide flex justify-center items-center gap-2">
+          <i class="fa-solid fa-right-to-bracket text-[#D4AF37]"></i> Login as Admin
+        </button>
+      </form>
+    </div>
+
+    <!-- Manager Form (Visible After Login) -->
+    <div id="admin-panel-card" class="hidden space-y-8">
+      
+      <!-- Top Stats Overview -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Maintenance Mode Control Box -->
+        <div class="bg-white p-6 rounded-3xl shadow-lg border border-[#F3E9CC] flex flex-col justify-center">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h2 class="text-lg font-bold text-[#0B1A3A] flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Maintenance Mode
+              </h2>
+              <p class="text-[10px] sm:text-xs text-slate-500 mt-1 font-semibold">Block website access during updates</p>
+            </div>
+            <span id="maintenance-status-text" class="text-xs font-bold px-3 py-1 rounded-full bg-[#F3E9CC] text-[#0B1A3A]">OFF</span>
+          </div>
+          <button id="toggle-maintenance-btn" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2.5 rounded-xl shadow transition-all text-sm">
+            Enable Maintenance
+          </button>
+        </div>
+
+        <!-- Quick Stats Box -->
+        <div class="bg-gradient-to-br from-[#0B1A3A] to-[#070F24] p-6 rounded-3xl shadow-lg border border-[#D4AF37]/20 flex flex-col justify-center relative overflow-hidden">
+          <i class="fa-solid fa-chart-line absolute -bottom-4 -right-4 text-7xl text-white/5"></i>
+          <h2 class="text-lg font-bold text-[#F3E9CC] mb-4">System Overview</h2>
+          <div class="flex justify-between items-center bg-white/10 p-3 rounded-xl border border-white/10 mb-2 backdrop-blur-sm">
+            <span class="text-xs sm:text-sm text-[#F3E9CC] font-semibold">Total Students</span>
+            <span id="stat-total" class="font-bold text-[#D4AF37] text-lg">0</span>
+          </div>
+          <div class="flex justify-between items-center bg-white/10 p-3 rounded-xl border border-white/10 backdrop-blur-sm">
+            <span class="text-xs sm:text-sm text-[#F3E9CC] font-semibold flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span> Live Right Now
+            </span>
+            <span id="stat-live" class="font-bold text-white text-lg">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN FEATURE: NEWS & UPDATES MANAGER -->
+      <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-red-200 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-red-500"></div>
+        <div class="flex justify-between items-center mb-6 border-b border-red-100 pb-4">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-red-700"><i class="fa-solid fa-bullhorn text-red-500 mr-2 animate-bounce"></i>Post News & Updates</h2>
+            <p class="text-xs text-slate-500 font-semibold mt-1">Publish unlimited updates directly to the Homepage</p>
+          </div>
+        </div>
+
+        <form id="updates-form" class="space-y-5 mb-8">
+          <input type="hidden" id="edit-update-id" value="">
+          <div>
+            <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Update Title / Heading</label>
+            <input type="text" id="update-title" required placeholder="e.g. BIEK Karachi Final Date Sheet Announced!" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 font-bold">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Update Details (Urdu/English)</label>
+            <textarea id="update-details" rows="4" required placeholder="Type the news details here..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 font-semibold resize-none"></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-image mr-1 text-[#D4AF37]"></i> Image URL (Optional)</label>
+              <input type="url" id="update-image" placeholder="https://example.com/poster.jpg" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-link mr-1 text-blue-500"></i> Button Link (Optional)</label>
+              <input type="url" id="update-link" placeholder="https://example.com/download" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <button type="button" id="cancel-edit-btn" class="hidden w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-extrabold tracking-wide py-3.5 rounded-xl shadow-sm transition-all mt-4">
+              Cancel
+            </button>
+            <button type="submit" id="publish-update-btn" class="w-full bg-red-600 hover:bg-red-700 text-white font-extrabold tracking-wide py-3.5 rounded-xl shadow-md transition-all mt-4">
+              <i class="fa-solid fa-paper-plane mr-2"></i> Publish Update
+            </button>
+          </div>
+        </form>
+
+        <!-- List of Published Updates (For Editing/Deleting) -->
+        <div class="border-t border-red-100 pt-6">
+          <h3 class="text-lg font-bold text-[#0B1A3A] mb-4 uppercase tracking-wide border-b border-[#F3E9CC] pb-2">Manage Published Updates</h3>
+          <div id="admin-updates-list" class="space-y-4 max-h-80 overflow-y-auto pr-2">
+            <!-- Updates listed here by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================== -->
+      <!-- ONLINE TEST SESSION MANAGER                           -->
+      <!-- ===================================================== -->
+      <div id="test-manager" class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-[#D4AF37] relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#0B1A3A] via-[#D4AF37] to-[#0B1A3A]"></div>
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6 border-b border-[#F3E9CC] pb-4">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-[#0B1A3A]"><i class="fa-solid fa-pen-to-square text-[#D4AF37] mr-2"></i>Online Test Session Manager</h2>
+            <p class="text-xs text-slate-500 font-semibold mt-1">Class-wise MCQ tests banayein, ek click mein MCQs load karein, publish / class change karein aur results dekhein</p>
+          </div>
+          <div class="flex gap-2 text-xs font-bold">
+            <span class="bg-[#0B1A3A] text-[#F3E9CC] px-3 py-1.5 rounded-lg">Tests: <span id="tm-stat-tests">0</span></span>
+            <span class="bg-[#F3E9CC] text-[#0B1A3A] px-3 py-1.5 rounded-lg">Live: <span id="tm-stat-live">0</span></span>
+          </div>
+        </div>
+
+        <!-- Sub tabs -->
+        <div class="flex flex-wrap gap-2 mb-6">
+          <button data-tmtab="create" class="tm-tab px-4 py-2 rounded-xl text-sm font-bold">➕ Create / Edit Test</button>
+          <button data-tmtab="manage" class="tm-tab px-4 py-2 rounded-xl text-sm font-bold">📋 Manage Tests</button>
+          <button data-tmtab="results" class="tm-tab px-4 py-2 rounded-xl text-sm font-bold">📊 Student Results</button>
+        </div>
+
+        <!-- ===== CREATE / EDIT ===== -->
+        <div id="tm-create" class="tm-panel space-y-6">
+          <input type="hidden" id="tm-test-id">
+          <div id="tm-edit-banner" class="hidden bg-amber-50 border border-amber-200 text-amber-800 text-sm font-bold rounded-xl p-3 flex justify-between items-center">
+            <span><i class="fa-solid fa-pen mr-1"></i> Editing: <span id="tm-edit-name"></span></span>
+            <button type="button" id="tm-cancel-edit" class="text-xs underline">Cancel edit</button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Test Title</label>
+              <input id="tm-title" type="text" placeholder="e.g. Chemistry Chapter 1 - Weekly Test" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-[#D4AF37] font-bold">
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Subject</label>
+              <input id="tm-subject" type="text" list="tm-subject-list" placeholder="Physics / Chemistry / ..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-[#D4AF37] font-semibold">
+              <datalist id="tm-subject-list">
+                <option>Physics</option><option>Chemistry</option><option>Biology</option><option>Mathematics</option>
+                <option>Computer Science</option><option>English</option><option>Urdu</option><option>Islamiat</option><option>Pakistan Studies</option><option>Sindhi</option>
+              </datalist>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Class</label>
+                <select id="tm-class" class="w-full px-3 py-3 rounded-xl border border-[#0B1A3A] font-bold text-[#0B1A3A]">
+                  <option value="9th">Class 9th</option><option value="10th">Class 10th</option><option value="11th">Class 11th</option><option value="12th">Class 12th</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Time (min)</label>
+                <input id="tm-duration" type="number" min="1" max="300" value="20" class="w-full px-3 py-3 rounded-xl border border-slate-200 font-bold">
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-6 text-sm font-bold text-[#0B1A3A]">
+            <label class="flex items-center gap-2 cursor-pointer"><input id="tm-published" type="checkbox" checked class="w-4 h-4 accent-[#0B1A3A]"> Publish (students ko dikhe)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input id="tm-show-answers" type="checkbox" checked class="w-4 h-4 accent-[#0B1A3A]"> Submit ke baad sahi jawab dikhayein</label>
+          </div>
+
+          <!-- Bulk import -->
+          <div class="bg-[#F3E9CC]/30 border border-[#F3E9CC] rounded-2xl p-4 sm:p-5">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="font-extrabold text-[#0B1A3A]"><i class="fa-solid fa-bolt text-[#D4AF37] mr-1"></i> One-Click MCQ Import</h3>
+              <button type="button" id="tm-format-toggle" class="text-xs font-bold text-[#B8952B] underline">Format dekhein</button>
+            </div>
+            <div id="tm-format-help" class="hidden text-xs bg-white rounded-xl p-3 mb-3 border border-slate-200 font-mono whitespace-pre-wrap text-slate-700">TEXT format (copy-paste from Word / WhatsApp):
+1. Pakistan ka capital kya hai?
+A) Karachi
+B) Lahore
+C) Islamabad
+D) Quetta
+Answer: C
+Explanation: Islamabad 1967 se capital hai.   (optional)
+
+2. Unit of force?
+A) Joule  B) Newton  C) Watt  D) Pascal  ← har option alag line par likhein
+Answer: B
+
+CSV format (Excel → Save As CSV):
+question,optionA,optionB,optionC,optionD,answer,explanation
+"Unit of force?",Joule,Newton,Watt,Pascal,B,
+
+JSON format:
+[{"q":"Unit of force?","options":["Joule","Newton","Watt","Pascal"],"answer":"B"}]</div>
+            <textarea id="tm-bulk" rows="7" placeholder="Yahan MCQs paste karein (Text / CSV / JSON) — ya neeche se file select karein" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-[#D4AF37] text-sm font-semibold" dir="auto"></textarea>
+            <div class="flex flex-col sm:flex-row gap-3 mt-3">
+              <label class="flex-1 cursor-pointer bg-white border-2 border-dashed border-[#D4AF37] rounded-xl px-4 py-2.5 text-sm font-bold text-[#0B1A3A] text-center hover:bg-[#F3E9CC]/40">
+                <i class="fa-solid fa-file-arrow-up mr-1 text-[#D4AF37]"></i> <span id="tm-file-name">File select karein (.txt / .csv / .json)</span>
+                <input id="tm-file" type="file" accept=".txt,.csv,.json" class="hidden">
+              </label>
+              <button type="button" id="tm-load-append" class="bg-[#0B1A3A] hover:bg-[#070F24] text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow"><i class="fa-solid fa-plus mr-1"></i> Load MCQs (Add)</button>
+              <button type="button" id="tm-load-replace" class="bg-white border-2 border-[#0B1A3A] text-[#0B1A3A] font-bold px-5 py-2.5 rounded-xl text-sm"><i class="fa-solid fa-rotate mr-1"></i> Replace All</button>
+            </div>
+            <p id="tm-import-msg" class="text-xs font-bold mt-2"></p>
+          </div>
+
+          <!-- Manual single MCQ -->
+          <details class="border border-slate-200 rounded-2xl p-4 sm:p-5" id="tm-manual-box">
+            <summary class="font-extrabold text-[#0B1A3A] cursor-pointer"><i class="fa-solid fa-keyboard text-[#D4AF37] mr-1"></i> <span id="tm-manual-title">Ek MCQ manually add karein</span></summary>
+            <div class="space-y-3 mt-4">
+              <textarea id="tm-m-q" rows="2" dir="auto" placeholder="Question" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 font-semibold text-sm"></textarea>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input id="tm-m-a" dir="auto" placeholder="Option A" class="px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold">
+                <input id="tm-m-b" dir="auto" placeholder="Option B" class="px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold">
+                <input id="tm-m-c" dir="auto" placeholder="Option C" class="px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold">
+                <input id="tm-m-d" dir="auto" placeholder="Option D" class="px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold">
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <select id="tm-m-ans" class="px-4 py-2.5 rounded-xl border border-[#0B1A3A] text-sm font-bold">
+                  <option value="0">Correct: A</option><option value="1">Correct: B</option><option value="2">Correct: C</option><option value="3">Correct: D</option>
+                </select>
+                <input id="tm-m-exp" dir="auto" placeholder="Explanation (optional)" class="sm:col-span-2 px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold">
+              </div>
+              <input type="hidden" id="tm-m-index" value="">
+              <button type="button" id="tm-m-add" class="bg-[#D4AF37] hover:bg-[#B8952B] text-[#0B1A3A] font-extrabold px-5 py-2.5 rounded-xl text-sm shadow"><i class="fa-solid fa-plus mr-1"></i> Add MCQ</button>
+            </div>
+          </details>
+
+          <!-- Preview -->
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="font-extrabold text-[#0B1A3A] uppercase text-sm">Questions Preview (<span id="tm-q-count">0</span>)</h3>
+              <button type="button" id="tm-clear-q" class="text-xs font-bold text-red-600 hover:underline">Clear all</button>
+            </div>
+            <div id="tm-q-list" class="space-y-3 max-h-[28rem] overflow-y-auto pr-1"></div>
+          </div>
+
+          <button type="button" id="tm-save" class="w-full bg-[#0B1A3A] hover:bg-[#070F24] text-[#F3E9CC] font-extrabold tracking-wide py-4 rounded-xl shadow-lg border-2 border-[#D4AF37]">
+            <i class="fa-solid fa-cloud-arrow-up mr-2 text-[#D4AF37]"></i> <span id="tm-save-label">Save &amp; Publish Test</span>
+          </button>
+        </div>
+
+        <!-- ===== MANAGE ===== -->
+        <div id="tm-manage" class="tm-panel hidden">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div id="tm-filter" class="flex flex-wrap gap-2">
+              <button data-f="all" class="tm-f px-3 py-1.5 rounded-lg text-xs font-bold">All</button>
+              <button data-f="9th" class="tm-f px-3 py-1.5 rounded-lg text-xs font-bold">9th</button>
+              <button data-f="10th" class="tm-f px-3 py-1.5 rounded-lg text-xs font-bold">10th</button>
+              <button data-f="11th" class="tm-f px-3 py-1.5 rounded-lg text-xs font-bold">11th</button>
+              <button data-f="12th" class="tm-f px-3 py-1.5 rounded-lg text-xs font-bold">12th</button>
+            </div>
+            <div class="flex gap-2">
+              <button id="tm-bulk-pub" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg">Publish all (filter)</button>
+              <button id="tm-bulk-unpub" class="text-xs font-bold bg-slate-600 hover:bg-slate-700 text-white px-3 py-2 rounded-lg">Hide all (filter)</button>
+            </div>
+          </div>
+          <div id="tm-tests-list" class="space-y-3"></div>
+        </div>
+
+        <!-- ===== RESULTS ===== -->
+        <div id="tm-results" class="tm-panel hidden">
+          <div class="flex flex-col sm:flex-row gap-3 mb-4">
+            <select id="tm-res-test" class="flex-1 px-4 py-3 rounded-xl border border-[#0B1A3A] font-bold text-[#0B1A3A] text-sm"></select>
+            <button id="tm-res-csv" class="bg-[#D4AF37] hover:bg-[#B8952B] text-[#0B1A3A] font-extrabold px-5 py-3 rounded-xl text-sm"><i class="fa-solid fa-file-csv mr-1"></i> Export CSV</button>
+          </div>
+          <div id="tm-res-stats" class="grid grid-cols-3 gap-3 mb-4"></div>
+          <div class="overflow-x-auto rounded-xl border border-slate-100">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-[#F3E9CC]/60 text-[#0B1A3A] uppercase text-xs">
+                <tr><th class="p-3">#</th><th class="p-3">Student</th><th class="p-3">Score</th><th class="p-3">%</th><th class="p-3">Time</th><th class="p-3">Date</th></tr>
+              </thead>
+              <tbody id="tm-res-body" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Drive Links Update Section (Regular) -->
+      <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-[#F3E9CC]">
+        <div class="flex justify-between items-center mb-6 border-b border-[#F3E9CC] pb-4">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-[#0B1A3A]"><i class="fa-brands fa-google-drive text-[#D4AF37] mr-2"></i>Update Drive Links (Regular)</h2>
+            <p class="text-xs text-slate-500 font-semibold mt-1">Links will update securely without data loss</p>
+          </div>
+          <button id="admin-logout-btn" class="text-xs bg-rose-50 text-rose-600 border border-rose-200 px-4 py-2 rounded-xl font-bold hover:bg-rose-100 transition-all">Logout</button>
+        </div>
+
+        <form id="links-form" class="space-y-5">
+          <div>
+            <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Select Class To Edit</label>
+            <select id="select-class" class="w-full px-4 py-3 rounded-xl border border-[#0B1A3A] font-bold text-[#0B1A3A] focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] bg-[#F3E9CC]/20 appearance-none">
+              <option value="9th">📘 Class 9th Material</option>
+              <option value="10th">📙 Class 10th Material</option>
+              <option value="11th">📗 Class 11th Material</option>
+              <option value="12th">📕 Class 12th Material</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-file-lines mr-1 text-[#0B1A3A]"></i> All Subjects Notes</label>
+              <input type="url" id="link-notes" placeholder="https://drive.google.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-bullseye mr-1 text-[#D4AF37]"></i> Target Papers</label>
+              <input type="url" id="link-target" placeholder="https://drive.google.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-clock-rotate-left mr-1 text-sky-600"></i> 10 Years Papers</label>
+              <input type="url" id="link-tenYears" placeholder="https://drive.google.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-book mr-1 text-slate-700"></i> Subjects Books</label>
+              <input type="url" id="link-books" placeholder="https://drive.google.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-[#D4AF37] hover:bg-[#B8952B] text-[#0B1A3A] font-extrabold tracking-wide py-3.5 rounded-xl shadow-md transition-all mt-4 border border-[#B8952B]">
+            <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Save & Publish Regular Links
+          </button>
+        </form>
+      </div>
+
+      <!-- SUPPLY PORTAL STUFF (New Section) -->
+      <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-[#F3E9CC] relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-[#D4AF37]"></div>
+        <div class="flex justify-between items-center mb-6 border-b border-[#F3E9CC] pb-4">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-[#0B1A3A]"><i class="fa-solid fa-file-circle-exclamation text-[#D4AF37] mr-2"></i>SUPPLY PORTAL STUFF</h2>
+            <p class="text-xs text-slate-500 font-semibold mt-1">Manage links exclusively for the Supplymentry Portal</p>
+          </div>
+        </div>
+
+        <form id="supply-links-form" class="space-y-5">
+          <div>
+            <label class="block text-xs font-bold uppercase text-[#0B1A3A] mb-1">Select Supply Class</label>
+            <select id="supply-select-class" class="w-full px-4 py-3 rounded-xl border border-[#0B1A3A] font-bold text-[#0B1A3A] focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] bg-[#F3E9CC]/10 appearance-none">
+              <option value="9th">📘 Class 9th Supply</option>
+              <option value="10th">📙 Class 10th Supply</option>
+              <option value="11th">📗 Class 11th Supply</option>
+              <option value="12th">📕 Class 12th Supply</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-file-lines mr-1 text-[#0B1A3A]"></i> Supply Notes</label>
+              <input type="url" id="supply-link-notes" placeholder="https://drive.google.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-bullseye mr-1 text-[#D4AF37]"></i> Supply Target Papers</label>
+              <input type="url" id="supply-link-target" placeholder="https://drive.google.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-clock-rotate-left mr-1 text-sky-600"></i> Supply 10 Years</label>
+              <input type="url" id="supply-link-tenYears" placeholder="https://drive.google.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1"><i class="fa-solid fa-book mr-1 text-slate-700"></i> Supply Books</label>
+              <input type="url" id="supply-link-books" placeholder="https://drive.google.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#0B1A3A] text-sm">
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-[#0B1A3A] hover:bg-[#070F24] text-[#F3E9CC] font-extrabold tracking-wide py-3.5 rounded-xl shadow-md transition-all mt-4 border border-[#0B1A3A]">
+            <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Save Supply Links
+          </button>
+        </form>
+      </div>
+
+      <!-- Registered Users Data Table -->
+      <div class="bg-white p-6 rounded-3xl shadow-xl border border-[#F3E9CC]">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+          <h3 class="text-xl font-bold text-[#0B1A3A]">
+            <i class="fa-solid fa-users-gear text-[#D4AF37] mr-2"></i> Student Database
+          </h3>
+          <div class="flex gap-2">
+            <span id="total-users-badge" class="bg-[#0B1A3A] text-[#F3E9CC] font-bold px-3 py-1.5 rounded-lg text-xs shadow-sm">
+              Total: 0
+            </span>
+            <span id="live-users-badge" class="bg-[#F3E9CC] text-[#0B1A3A] border border-[#0B1A3A] font-bold px-3 py-1.5 rounded-lg text-xs shadow-sm flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span> Live: 0
+            </span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-slate-100">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-[#F3E9CC]/50 text-[#0B1A3A] text-sm uppercase tracking-wide border-b border-[#F3E9CC]">
+                <th class="p-4 font-bold">Name / User ID</th>
+                <th class="p-4 font-bold">Email Address</th>
+                <th class="p-4 font-bold">Last Active Status</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body" class="text-sm divide-y divide-slate-100">
+              <!-- Users Dynamic Load Honge -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="bg-white border-t border-[#F3E9CC] py-4 text-center text-xs font-semibold text-slate-500">
+    © 2026 The Vision Academy Admin System | Secured Portal
+  </footer>
+
+  <!-- Firebase Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, getDocs, onSnapshot, addDoc, updateDoc, deleteDoc, serverTimestamp, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8-II4YOIt1ZGk6x4VhOMvAIr7xazjhPY",
+      authDomain: "gumnaam-education.firebaseapp.com",
+      projectId: "gumnaam-education",
+      storageBucket: "gumnaam-education.firebasestorage.app",
+      messagingSenderId: "680513198806",
+      appId: "1:680513198806:web:5a96acd811b6ec4b7b8777"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Admin = sirf ye Firebase account. Password Firebase Authentication mein hai, code mein nahi.
+    const FIREBASE_ADMIN_EMAIL = "auratroll82009@gmail.com";
+
+    const loginCard = document.getElementById('admin-login-card');
+    const panelCard = document.getElementById('admin-panel-card');
+    
+    // Links Elements
+    const selectClass = document.getElementById('select-class');
+    const supplySelectClass = document.getElementById('supply-select-class');
+
+    // Maintenance Mode
+    const toggleMaintenanceBtn = document.getElementById('toggle-maintenance-btn');
+    const maintenanceStatusText = document.getElementById('maintenance-status-text');
+    let isMaintenanceActive = false;
+
+    onSnapshot(doc(db, "settings", "site_config"), (docSnap) => {
+      if (docSnap.exists() && docSnap.data().maintenance) {
+        isMaintenanceActive = true;
+        maintenanceStatusText.innerText = "MAINTENANCE ON";
+        maintenanceStatusText.className = "text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full bg-rose-100 text-rose-800 border border-rose-200";
+        toggleMaintenanceBtn.innerText = "Turn OFF Maintenance";
+        toggleMaintenanceBtn.className = "w-full bg-[#0B1A3A] hover:bg-[#070F24] text-[#F3E9CC] font-bold px-4 py-2.5 rounded-xl shadow transition-all text-sm";
+      } else {
+        isMaintenanceActive = false;
+        maintenanceStatusText.innerText = "SYSTEM NORMAL";
+        maintenanceStatusText.className = "text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full bg-[#F3E9CC] text-[#0B1A3A] border border-[#D4AF37]";
+        toggleMaintenanceBtn.innerText = "Turn ON Maintenance";
+        toggleMaintenanceBtn.className = "w-full bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2.5 rounded-xl shadow transition-all text-sm";
+      }
+    });
+
+    toggleMaintenanceBtn.addEventListener('click', async () => {
+      try {
+        await setDoc(doc(db, "settings", "site_config"), { maintenance: !isMaintenanceActive }, { merge: true });
+      } catch (err) { alert("Error updating maintenance mode: " + err.message); }
+    });
+
+    // ============================================
+    // 1. REGULAR LINKS LOGIC
+    // ============================================
+    async function fetchClassLinks(className) {
+      const docRef = doc(db, "materials", className);
+      const docSnap = await getDoc(docRef);
+      
+      document.getElementById('link-notes').value = '';
+      document.getElementById('link-target').value = '';
+      document.getElementById('link-tenYears').value = '';
+      document.getElementById('link-books').value = '';
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if(data.notes) document.getElementById('link-notes').value = data.notes;
+        if(data.target) document.getElementById('link-target').value = data.target;
+        if(data.tenYears) document.getElementById('link-tenYears').value = data.tenYears;
+        if(data.books) document.getElementById('link-books').value = data.books;
+      }
+    }
+
+    selectClass.addEventListener('change', (e) => fetchClassLinks(e.target.value));
+
+    document.getElementById('links-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const currentClass = selectClass.value;
+      const newLinksData = {};
+      
+      const notesLink = document.getElementById('link-notes').value;
+      const targetLink = document.getElementById('link-target').value;
+      const tenYearsLink = document.getElementById('link-tenYears').value;
+      const booksLink = document.getElementById('link-books').value;
+
+      if(notesLink) newLinksData.notes = notesLink;
+      if(targetLink) newLinksData.target = targetLink;
+      if(tenYearsLink) newLinksData.tenYears = tenYearsLink;
+      if(booksLink) newLinksData.books = booksLink;
+      
+      try {
+        await setDoc(doc(db, "materials", currentClass), newLinksData, { merge: true });
+        
+        const btn = e.target.querySelector('button[type="submit"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Successfully Updated!';
+        btn.classList.replace('bg-[#D4AF37]', 'bg-[#0B1A3A]');
+        btn.classList.replace('text-[#0B1A3A]', 'text-[#D4AF37]');
+        
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.replace('bg-[#0B1A3A]', 'bg-[#D4AF37]');
+          btn.classList.replace('text-[#D4AF37]', 'text-[#0B1A3A]');
+        }, 2500);
+
+      } catch (err) { alert("Error saving regular links: " + err.message); }
+    });
+
+    // ============================================
+    // 2. SUPPLY LINKS LOGIC
+    // ============================================
+    async function fetchSupplyClassLinks(className) {
+      const docRef = doc(db, "supply_materials", className); 
+      const docSnap = await getDoc(docRef);
+      
+      document.getElementById('supply-link-notes').value = '';
+      document.getElementById('supply-link-target').value = '';
+      document.getElementById('supply-link-tenYears').value = '';
+      document.getElementById('supply-link-books').value = '';
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if(data.notes) document.getElementById('supply-link-notes').value = data.notes;
+        if(data.target) document.getElementById('supply-link-target').value = data.target;
+        if(data.tenYears) document.getElementById('supply-link-tenYears').value = data.tenYears;
+        if(data.books) document.getElementById('supply-link-books').value = data.books;
+      }
+    }
+
+    supplySelectClass.addEventListener('change', (e) => fetchSupplyClassLinks(e.target.value));
+
+    document.getElementById('supply-links-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const currentClass = supplySelectClass.value;
+      const newLinksData = {};
+      
+      const notesLink = document.getElementById('supply-link-notes').value;
+      const targetLink = document.getElementById('supply-link-target').value;
+      const tenYearsLink = document.getElementById('supply-link-tenYears').value;
+      const booksLink = document.getElementById('supply-link-books').value;
+
+      if(notesLink) newLinksData.notes = notesLink;
+      if(targetLink) newLinksData.target = targetLink;
+      if(tenYearsLink) newLinksData.tenYears = tenYearsLink;
+      if(booksLink) newLinksData.books = booksLink;
+      
+      try {
+        await setDoc(doc(db, "supply_materials", currentClass), newLinksData, { merge: true });
+        
+        const btn = e.target.querySelector('button[type="submit"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Supply Links Saved!';
+        btn.classList.replace('bg-[#0B1A3A]', 'bg-[#D4AF37]');
+        btn.classList.replace('text-[#F3E9CC]', 'text-[#0B1A3A]');
+        
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.replace('bg-[#D4AF37]', 'bg-[#0B1A3A]');
+          btn.classList.replace('text-[#0B1A3A]', 'text-[#F3E9CC]');
+        }, 2500);
+
+      } catch (err) { alert("Error saving supply links: " + err.message); }
+    });
+
+    // ============================================
+    // 3. NEWS & UPDATES PUBLISH / EDIT / DELETE LOGIC
+    // ============================================
+    const adminUpdatesList = document.getElementById('admin-updates-list');
+    const updateTitleInput = document.getElementById('update-title');
+    const updateDetailsInput = document.getElementById('update-details');
+    const updateImageInput = document.getElementById('update-image');
+    const updateLinkInput = document.getElementById('update-link');
+    const editUpdateIdInput = document.getElementById('edit-update-id');
+    const publishBtn = document.getElementById('publish-update-btn');
+    const cancelEditBtn = document.getElementById('cancel-edit-btn');
+    let allUpdatesData = {}; // Store updates temporarily for editing
+
+    // Fetch and list updates for admin management
+    onSnapshot(query(collection(db, "site_updates"), orderBy("timestamp", "desc")), (snapshot) => {
+      adminUpdatesList.innerHTML = '';
+      allUpdatesData = {};
+      
+      if(snapshot.empty) {
+        adminUpdatesList.innerHTML = '<p class="text-sm text-slate-400 font-bold italic">No updates published yet.</p>';
+        return;
+      }
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const docId = docSnap.id;
+        allUpdatesData[docId] = data; // Save to local object
+
+        const dateStr = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleDateString() : 'Recently';
+        
+        const item = document.createElement('div');
+        item.className = "bg-slate-50 border border-slate-200 rounded-xl p-4 flex justify-between items-start hover:shadow-md transition-all";
+        item.innerHTML = `
+          <div class="pr-4">
+            <h4 class="font-extrabold text-[#0B1A3A] text-base">${data.title}</h4>
+            <p class="text-xs text-slate-500 font-semibold mt-1 truncate max-w-xs sm:max-w-md">${data.details}</p>
+            <span class="text-[10px] text-[#D4AF37] font-bold mt-2 inline-block"><i class="fa-regular fa-clock"></i> ${dateStr}</span>
+          </div>
+          
+          <div class="relative">
+            <button class="text-slate-400 hover:text-[#0B1A3A] p-2 focus:outline-none" onclick="toggleDropdown('${docId}')">
+              <i class="fa-solid fa-ellipsis-vertical text-xl"></i>
+            </button>
+            
+            <div id="dropdown-${docId}" class="dropdown-menu absolute right-0 top-8 w-32 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-10">
+              <button class="w-full text-left px-4 py-2.5 text-sm font-bold text-[#0B1A3A] hover:bg-slate-50 border-b border-slate-100" onclick="startEditUpdate('${docId}')">
+                <i class="fa-solid fa-pen-to-square mr-2 text-[#D4AF37]"></i> Edit
+              </button>
+              <button class="w-full text-left px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50" onclick="deleteUpdate('${docId}')">
+                <i class="fa-solid fa-trash mr-2"></i> Delete
+              </button>
+            </div>
+          </div>
+        `;
+        adminUpdatesList.appendChild(item);
+      });
+    });
+
+    // Make functions globally accessible for inline HTML onclick handlers
+    window.toggleDropdown = function(id) {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        if(menu.id !== `dropdown-${id}`) menu.classList.remove('show');
+      });
+      document.getElementById(`dropdown-${id}`).classList.toggle('show');
+    };
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.relative')) {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+      }
+    });
+
+    window.startEditUpdate = function(id) {
+      document.getElementById(`dropdown-${id}`).classList.remove('show');
+      const data = allUpdatesData[id];
+      if(!data) return;
+
+      editUpdateIdInput.value = id;
+      updateTitleInput.value = data.title;
+      updateDetailsInput.value = data.details;
+      updateImageInput.value = data.imageUrl || '';
+      updateLinkInput.value = data.linkUrl || '';
+
+      publishBtn.innerHTML = '<i class="fa-solid fa-floppy-disk mr-2"></i> Save Changes';
+      publishBtn.classList.replace('bg-red-600', 'bg-[#0B1A3A]');
+      publishBtn.classList.replace('hover:bg-red-700', 'hover:bg-[#070F24]');
+      cancelEditBtn.classList.remove('hidden');
+      
+      // Scroll to form
+      document.getElementById('updates-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    window.deleteUpdate = async function(id) {
+      document.getElementById(`dropdown-${id}`).classList.remove('show');
+      if(confirm("Are you sure you want to delete this update permanently?")) {
+        try {
+          await deleteDoc(doc(db, "site_updates", id));
+          alert("Update deleted successfully.");
+        } catch (error) {
+          alert("Error deleting update: " + error.message);
+        }
+      }
+    };
+
+    cancelEditBtn.addEventListener('click', () => {
+      document.getElementById('updates-form').reset();
+      editUpdateIdInput.value = '';
+      
+      publishBtn.innerHTML = '<i class="fa-solid fa-paper-plane mr-2"></i> Publish Update';
+      publishBtn.classList.replace('bg-[#0B1A3A]', 'bg-red-600');
+      publishBtn.classList.replace('hover:bg-[#070F24]', 'hover:bg-red-700');
+      cancelEditBtn.classList.add('hidden');
+    });
+
+    document.getElementById('updates-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const updateId = editUpdateIdInput.value;
+      const title = updateTitleInput.value;
+      const details = updateDetailsInput.value;
+      const imageUrl = updateImageInput.value;
+      const linkUrl = updateLinkInput.value;
+      
+      try {
+        const updateData = {
+          title: title,
+          details: details,
+          imageUrl: imageUrl || null,
+          linkUrl: linkUrl || null
+        };
+
+        if (updateId) {
+          // Editing existing update
+          await updateDoc(doc(db, "site_updates", updateId), updateData);
+          publishBtn.innerHTML = '<i class="fa-solid fa-check-circle mr-2"></i> Changes Saved!';
+        } else {
+          // Creating new update
+          updateData.timestamp = serverTimestamp();
+          await addDoc(collection(db, "site_updates"), updateData);
+          publishBtn.innerHTML = '<i class="fa-solid fa-check-circle mr-2"></i> Published Successfully!';
+        }
+        
+        publishBtn.classList.replace('bg-red-600', 'bg-green-600');
+        publishBtn.classList.replace('hover:bg-red-700', 'hover:bg-green-700');
+        publishBtn.classList.replace('bg-[#0B1A3A]', 'bg-green-600');
+        publishBtn.classList.replace('hover:bg-[#070F24]', 'hover:bg-green-700');
+        
+        document.getElementById('updates-form').reset();
+        editUpdateIdInput.value = '';
+        cancelEditBtn.classList.add('hidden');
+        
+        setTimeout(() => {
+          publishBtn.innerHTML = '<i class="fa-solid fa-paper-plane mr-2"></i> Publish Update';
+          publishBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+          publishBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+        }, 3000);
+
+      } catch (err) {
+        alert("Error saving update: " + err.message);
+      }
+    });
+
+    // ============================================
+    // 4. USERS LOGIC
+    // ============================================
+    async function loadUsers() {
+      const usersTableBody = document.getElementById('users-table-body');
+      const statTotal = document.getElementById('stat-total');
+      const statLive = document.getElementById('stat-live');
+      const totalBadge = document.getElementById('total-users-badge');
+      const liveBadge = document.getElementById('live-users-badge');
+
+      usersTableBody.innerHTML = '<tr><td colspan="3" class="text-center py-6 text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Fetching Student Data...</td></tr>';
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        usersTableBody.innerHTML = '';
+        
+        let totalUsers = querySnapshot.size;
+        let liveUsersCount = 0;
+        const currentTime = new Date();
+
+        statTotal.innerText = totalUsers;
+        totalBadge.innerText = `Total: ${totalUsers}`;
+
+        querySnapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-50 transition-colors";
+
+          let lastLoginDisplay = 'N/A';
+          let statusIndicator = '<span class="w-2 h-2 rounded-full bg-slate-300 inline-block mr-2"></span>';
+
+          if (data.lastLogin) {
+            const lastLoginDate = new Date(data.lastLogin);
+            lastLoginDisplay = lastLoginDate.toLocaleString();
+            
+            const diffMinutes = (currentTime - lastLoginDate) / (1000 * 60);
+            if (diffMinutes <= 30) {
+              liveUsersCount++;
+              statusIndicator = '<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_5px_red] inline-block mr-2"></span><span class="text-[#0B1A3A] font-bold">Online Now</span><br>';
+            }
+          }
+
+          tr.innerHTML = `
+            <td class="p-4 font-bold text-[#0B1A3A]">${data.displayName || 'Unknown User'}</td>
+            <td class="p-4 text-slate-600 font-medium">${data.email || 'N/A'}</td>
+            <td class="p-4 text-xs text-slate-500">${statusIndicator}${lastLoginDisplay}</td>
+          `;
+          usersTableBody.appendChild(tr);
+        });
+
+        statLive.innerText = liveUsersCount;
+        liveBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_5px_red]"></span> Live: ${liveUsersCount}`;
+
+      } catch (error) {
+        console.error("Error loading users:", error);
+        usersTableBody.innerHTML = '<tr><td colspan="3" class="text-center py-4 text-rose-500 font-bold">Failed to load users. Check database connection.</td></tr>';
+      }
+    }
+
+    // ============================================
+    // 4b. ONLINE TEST SESSION MANAGER
+    // ============================================
+    const TM_KEYS = ['A','B','C','D'];
+    const tmEsc = (t) => String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const $id = (x) => document.getElementById(x);
+    let tmQuestions = [];      // questions in the editor
+    let tmAllTests = [];       // all tests from Firestore
+    let tmFilter = 'all';
+    let tmResultsCache = [];
+    let tmStarted = false;
+
+    // ---- Sub tabs ----
+    function tmShowTab(name) {
+      document.querySelectorAll('.tm-tab').forEach(b => {
+        const on = b.dataset.tmtab === name;
+        b.className = 'tm-tab px-4 py-2 rounded-xl text-sm font-bold ' + (on ? 'bg-[#0B1A3A] text-[#F3E9CC] shadow' : 'bg-[#F3E9CC]/50 text-[#0B1A3A] hover:bg-[#F3E9CC]');
+      });
+      ['create','manage','results'].forEach(p => $id('tm-' + p).classList.toggle('hidden', p !== name));
+      if (name === 'results') tmLoadResults();
+    }
+    document.querySelectorAll('.tm-tab').forEach(b => b.addEventListener('click', () => tmShowTab(b.dataset.tmtab)));
+    $id('tm-format-toggle').addEventListener('click', () => $id('tm-format-help').classList.toggle('hidden'));
+
+    // ---- MCQ PARSER (Text / CSV / JSON) ----
+    function tmAnswerIndex(raw, options) {
+      if (raw === undefined || raw === null || raw === '') return -1;
+      if (typeof raw === 'number') return raw - 1;           // 1-based number fallback
+      const v = String(raw).trim();
+      let m = v.match(/^[\(\[]?\s*([A-Da-d])\s*(?:[\)\]\.:\-]|$|\s)/);
+      if (m) return m[1].toUpperCase().charCodeAt(0) - 65;
+      m = v.match(/^[\(\[]?\s*([1-9])\s*(?:[\)\]\.]|$)/);
+      if (m) return Number(m[1]) - 1;
+      return options.findIndex(o => o.trim().toLowerCase() === v.replace(/[\.\s]+$/, '').toLowerCase());
+    }
+    function tmParseCSVLine(line) {
+      const out = []; let cur = '', q = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (q) { if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; } else if (c === '"') q = false; else cur += c; }
+        else if (c === '"') q = true; else if (c === ',') { out.push(cur); cur = ''; } else cur += c;
+      }
+      out.push(cur); return out.map(x => x.trim());
+    }
+    function tmParse(text, fileName = '') {
+      text = (text || '').replace(/\r/g, '').trim();
+      if (!text) return { items: [], errors: ['Kuch paste nahi kiya gaya.'] };
+      const items = [], errors = [];
+      const push = (q, options, ans, exp, n) => {
+        options = options.map(o => String(o ?? '').trim()).filter(o => o !== '');
+        const answer = typeof ans === 'number' && Number.isInteger(ans) && ans >= 0 && ans < options.length ? ans : tmAnswerIndex(ans, options);
+        if (!q || options.length < 2) { errors.push(`#${n}: question ya options missing`); return; }
+        if (answer < 0 || answer >= options.length) { errors.push(`#${n}: correct answer samajh nahi aaya ("${q.slice(0, 30)}...")`); return; }
+        items.push({ q: String(q).trim(), options, answer, explanation: (exp || '').toString().trim() });
+      };
+
+      // JSON
+      if (fileName.endsWith('.json') || text.startsWith('[')) {
+        try {
+          const arr = JSON.parse(text);
+          arr.forEach((o, i) => {
+            const opts = Array.isArray(o.options) ? o.options : [o.a ?? o.A ?? o.optionA, o.b ?? o.B ?? o.optionB, o.c ?? o.C ?? o.optionC, o.d ?? o.D ?? o.optionD];
+            let ans = o.answer ?? o.ans ?? o.correct;
+            if (typeof ans === 'number' && Array.isArray(o.options)) ans = ans; // 0-based index
+            push(o.q ?? o.question, opts, ans, o.explanation ?? o.exp, i + 1);
+          });
+          return { items, errors };
+        } catch (e) { return { items: [], errors: ['JSON format theek nahi: ' + e.message] }; }
+      }
+
+      // CSV
+      const lines = text.split('\n').filter(l => l.trim());
+      const looksCSV = fileName.endsWith('.csv') || (lines.length && tmParseCSVLine(lines[0]).length >= 6 && !/^\s*(\d+[\.\)]|Q)/i.test(lines[0]));
+      if (looksCSV) {
+        let start = /^question/i.test(tmParseCSVLine(lines[0])[0]) ? 1 : 0;
+        for (let i = start; i < lines.length; i++) {
+          const c = tmParseCSVLine(lines[i]);
+          push(c[0], [c[1], c[2], c[3], c[4]], c[5], c[6], i + 1);
+        }
+        return { items, errors };
+      }
+
+      // TEXT
+      const reQ = /^\s*(?:Q(?:uestion)?\s*\.?\s*\d*\s*[:.)\-]|\d+\s*[.)\-:])\s*(.+)$/i;
+      const reOpt = /^\s*[\(\[]?([A-Da-d])[\)\]\.:\-]\s*(.+)$/;
+      const reAns = /^\s*(?:Ans(?:wer)?|Correct(?:\s*Answer)?|Key|جواب)\s*[:=\-\.]?\s*[\(\[]?\s*(.+?)\s*[\)\]]?\s*$/i;
+      const reExp = /^\s*(?:Exp(?:lanation)?|Reason|وضاحت)\s*[:\-]\s*(.+)$/i;
+      let cur = null, n = 0;
+      const flush = () => { if (cur) { n++; push(cur.q, cur.options, cur.ans, cur.exp, n); } cur = null; };
+      for (const line of text.split('\n')) {
+        if (!line.trim()) continue;
+        let m;
+        if ((m = line.match(reAns)) && cur) { cur.ans = m[1]; continue; }
+        if ((m = line.match(reExp)) && cur) { cur.exp = m[1]; continue; }
+        if ((m = line.match(reOpt)) && cur && cur.options.length < 4 && m[1].toUpperCase().charCodeAt(0) - 65 === cur.options.length) { cur.options.push(m[2]); continue; }
+        if ((m = line.match(reQ))) { flush(); cur = { q: m[1], options: [], ans: null, exp: '' }; continue; }
+        if (cur && cur.ans !== null) { flush(); cur = { q: line.trim(), options: [], ans: null, exp: '' }; continue; }
+        if (cur && cur.options.length === 0) { cur.q += '\n' + line.trim(); continue; }
+        if (!cur) { cur = { q: line.trim(), options: [], ans: null, exp: '' }; continue; }
+      }
+      flush();
+      return { items, errors };
+    }
+
+    // ---- Import buttons ----
+    let tmFileText = '', tmFileName = '';
+    $id('tm-file').addEventListener('change', async (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      tmFileName = f.name.toLowerCase(); tmFileText = await f.text();
+      $id('tm-file-name').textContent = f.name + ' ✓';
+      $id('tm-bulk').value = tmFileText;
+    });
+    function tmImport(replace) {
+      const { items, errors } = tmParse($id('tm-bulk').value, tmFileName);
+      const msg = $id('tm-import-msg');
+      if (!items.length) { msg.className = 'text-xs font-bold mt-2 text-red-600'; msg.textContent = '❌ Koi MCQ load nahi hua. ' + errors.slice(0, 3).join(' | '); return; }
+      tmQuestions = replace ? items : tmQuestions.concat(items);
+      tmRenderQ();
+      msg.className = 'text-xs font-bold mt-2 ' + (errors.length ? 'text-amber-600' : 'text-emerald-600');
+      msg.textContent = `✅ ${items.length} MCQs load ho gaye.` + (errors.length ? ` ⚠️ ${errors.length} skip hue: ` + errors.slice(0, 3).join(' | ') : '');
+      $id('tm-bulk').value = ''; tmFileName = ''; $id('tm-file').value = ''; $id('tm-file-name').textContent = 'File select karein (.txt / .csv / .json)';
+    }
+    $id('tm-load-append').addEventListener('click', () => tmImport(false));
+    $id('tm-load-replace').addEventListener('click', () => { if (!tmQuestions.length || confirm('Purane saare MCQs hata kar naye load karein?')) tmImport(true); });
+    $id('tm-clear-q').addEventListener('click', () => { if (tmQuestions.length && confirm('Saare questions clear karein?')) { tmQuestions = []; tmRenderQ(); } });
+
+    // ---- Manual add / edit single MCQ ----
+    function tmResetManual() {
+      ['tm-m-q','tm-m-a','tm-m-b','tm-m-c','tm-m-d','tm-m-exp'].forEach(i => $id(i).value = '');
+      $id('tm-m-ans').value = '0'; $id('tm-m-index').value = '';
+      $id('tm-m-add').innerHTML = '<i class="fa-solid fa-plus mr-1"></i> Add MCQ';
+      $id('tm-manual-title').textContent = 'Ek MCQ manually add karein';
+    }
+    $id('tm-m-add').addEventListener('click', () => {
+      const q = $id('tm-m-q').value.trim();
+      const opts = ['a','b','c','d'].map(k => $id('tm-m-' + k).value.trim());
+      if (!q || opts.some(o => !o)) return alert('Question aur chaaron options likhein.');
+      const item = { q, options: opts, answer: Number($id('tm-m-ans').value), explanation: $id('tm-m-exp').value.trim() };
+      const idx = $id('tm-m-index').value;
+      if (idx !== '') tmQuestions[Number(idx)] = item; else tmQuestions.push(item);
+      tmResetManual(); tmRenderQ();
+    });
+    window.tmEditQ = (i) => {
+      const q = tmQuestions[i];
+      $id('tm-m-q').value = q.q; ['a','b','c','d'].forEach((k, j) => $id('tm-m-' + k).value = q.options[j] || '');
+      $id('tm-m-ans').value = String(q.answer); $id('tm-m-exp').value = q.explanation || '';
+      $id('tm-m-index').value = i; $id('tm-manual-box').open = true;
+      $id('tm-m-add').innerHTML = '<i class="fa-solid fa-floppy-disk mr-1"></i> Update MCQ';
+      $id('tm-manual-title').textContent = `MCQ #${i + 1} edit ho raha hai`;
+      $id('tm-manual-box').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    window.tmDelQ = (i) => { tmQuestions.splice(i, 1); tmRenderQ(); };
+    window.tmMoveQ = (i, d) => { const j = i + d; if (j < 0 || j >= tmQuestions.length) return; [tmQuestions[i], tmQuestions[j]] = [tmQuestions[j], tmQuestions[i]]; tmRenderQ(); };
+
+    function tmRenderQ() {
+      $id('tm-q-count').textContent = tmQuestions.length;
+      const list = $id('tm-q-list');
+      if (!tmQuestions.length) { list.innerHTML = '<p class="text-sm text-slate-400 font-bold italic">Abhi koi MCQ nahi. Upar paste karke "Load MCQs" dabayein.</p>'; return; }
+      list.innerHTML = tmQuestions.map((q, i) => `
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+          <div class="flex justify-between gap-3">
+            <p dir="auto" class="font-bold text-[#0B1A3A] text-sm whitespace-pre-wrap"><span class="text-[#B8952B]">Q${i + 1}.</span> ${tmEsc(q.q)}</p>
+            <div class="flex gap-1 shrink-0 text-slate-400">
+              <button type="button" title="Up" onclick="tmMoveQ(${i},-1)" class="hover:text-[#0B1A3A] px-1"><i class="fa-solid fa-arrow-up"></i></button>
+              <button type="button" title="Down" onclick="tmMoveQ(${i},1)" class="hover:text-[#0B1A3A] px-1"><i class="fa-solid fa-arrow-down"></i></button>
+              <button type="button" title="Edit" onclick="tmEditQ(${i})" class="hover:text-[#D4AF37] px-1"><i class="fa-solid fa-pen"></i></button>
+              <button type="button" title="Delete" onclick="tmDelQ(${i})" class="hover:text-red-600 px-1"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-2 text-xs font-semibold">
+            ${q.options.map((o, j) => `<div dir="auto" class="px-2.5 py-1.5 rounded-lg ${j === q.answer ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-white border border-slate-200 text-slate-600'}">${TM_KEYS[j] || j + 1}) ${tmEsc(o)} ${j === q.answer ? '✔' : ''}</div>`).join('')}
+          </div>
+          ${q.explanation ? `<p dir="auto" class="text-[11px] text-slate-500 mt-2"><i class="fa-solid fa-lightbulb text-[#D4AF37] mr-1"></i>${tmEsc(q.explanation)}</p>` : ''}
+        </div>`).join('');
+    }
+
+    // ---- Save test ----
+    function tmResetForm() {
+      $id('tm-test-id').value = ''; $id('tm-title').value = ''; $id('tm-subject').value = '';
+      $id('tm-duration').value = 20; $id('tm-published').checked = true; $id('tm-show-answers').checked = true;
+      tmQuestions = []; tmRenderQ(); tmResetManual();
+      $id('tm-edit-banner').classList.add('hidden'); $id('tm-save-label').textContent = 'Save & Publish Test';
+    }
+    $id('tm-cancel-edit').addEventListener('click', tmResetForm);
+
+    $id('tm-save').addEventListener('click', async () => {
+      const title = $id('tm-title').value.trim();
+      if (!title) return alert('Test ka title likhein.');
+      if (!tmQuestions.length) return alert('Kam az kam 1 MCQ add karein.');
+      const data = {
+        title, subject: $id('tm-subject').value.trim() || 'General', classValue: $id('tm-class').value,
+        duration: Math.max(1, Number($id('tm-duration').value) || 20),
+        published: $id('tm-published').checked, showAnswers: $id('tm-show-answers').checked,
+        questions: tmQuestions, totalQuestions: tmQuestions.length, updatedAt: serverTimestamp()
+      };
+      const btn = $id('tm-save'); btn.disabled = true;
+      try {
+        const id = $id('tm-test-id').value;
+        if (id) await updateDoc(doc(db, 'tests', id), data);
+        else { data.createdAt = serverTimestamp(); await addDoc(collection(db, 'tests'), data); }
+        alert(`✅ Test "${title}" save ho gaya (${tmQuestions.length} MCQs, Class ${data.classValue})${data.published ? ' aur students ko live hai.' : ' — Draft (hidden).'}`);
+        tmResetForm(); tmShowTab('manage');
+      } catch (err) { alert('Save error: ' + err.message); }
+      finally { btn.disabled = false; }
+    });
+
+    // ---- Manage list ----
+    function tmPaintFilter() {
+      document.querySelectorAll('.tm-f').forEach(b => b.className = 'tm-f px-3 py-1.5 rounded-lg text-xs font-bold ' + (b.dataset.f === tmFilter ? 'bg-[#0B1A3A] text-[#F3E9CC]' : 'bg-[#F3E9CC]/50 text-[#0B1A3A]'));
+    }
+    document.querySelectorAll('.tm-f').forEach(b => b.addEventListener('click', () => { tmFilter = b.dataset.f; tmPaintFilter(); tmRenderTests(); }));
+    const tmFiltered = () => tmAllTests.filter(t => tmFilter === 'all' || t.classValue === tmFilter);
+
+    function tmRenderTests() {
+      $id('tm-stat-tests').textContent = tmAllTests.length;
+      $id('tm-stat-live').textContent = tmAllTests.filter(t => t.published).length;
+      const list = $id('tm-tests-list'); const arr = tmFiltered();
+      if (!arr.length) { list.innerHTML = '<p class="text-sm text-slate-400 font-bold italic py-6 text-center">Is filter mein koi test nahi.</p>'; }
+      else list.innerHTML = arr.map(t => `
+        <div class="border ${t.published ? 'border-emerald-200 bg-emerald-50/40' : 'border-slate-200 bg-slate-50'} rounded-2xl p-4 flex flex-col lg:flex-row lg:items-center gap-3">
+          <div class="flex-grow min-w-0">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="text-[10px] font-extrabold px-2 py-0.5 rounded ${t.published ? 'bg-emerald-600 text-white' : 'bg-slate-400 text-white'}">${t.published ? 'LIVE' : 'DRAFT'}</span>
+              <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-[#0B1A3A] text-[#D4AF37]">${tmEsc(t.subject)}</span>
+            </div>
+            <h4 dir="auto" class="font-extrabold text-[#0B1A3A] truncate">${tmEsc(t.title)}</h4>
+            <p class="text-xs text-slate-500 font-semibold">${(t.questions || []).length} MCQs • ${t.duration} min</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <select onchange="tmChangeClass('${t.id}', this.value)" title="Class change" class="text-xs font-bold border border-[#0B1A3A] rounded-lg px-2 py-2 text-[#0B1A3A] bg-white">
+              ${['9th','10th','11th','12th'].map(c => `<option value="${c}" ${t.classValue === c ? 'selected' : ''}>Class ${c}</option>`).join('')}
+            </select>
+            <button onclick="tmTogglePub('${t.id}', ${!t.published})" class="text-xs font-bold px-3 py-2 rounded-lg ${t.published ? 'bg-slate-600 text-white' : 'bg-emerald-600 text-white'}">${t.published ? '<i class="fa-solid fa-eye-slash"></i> Hide' : '<i class="fa-solid fa-eye"></i> Publish'}</button>
+            <button onclick="tmEditTest('${t.id}')" class="text-xs font-bold px-3 py-2 rounded-lg bg-[#D4AF37] text-[#0B1A3A]"><i class="fa-solid fa-pen"></i> Edit</button>
+            <button onclick="tmDuplicate('${t.id}')" class="text-xs font-bold px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-700" title="Copy banayein"><i class="fa-solid fa-copy"></i></button>
+            <button onclick="tmOpenResults('${t.id}')" class="text-xs font-bold px-3 py-2 rounded-lg bg-[#0B1A3A] text-white"><i class="fa-solid fa-chart-simple"></i> Results</button>
+            <button onclick="tmDeleteTest('${t.id}')" class="text-xs font-bold px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-600"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>`).join('');
+      // results dropdown
+      const sel = $id('tm-res-test'); const prev = sel.value;
+      sel.innerHTML = '<option value="">— Test select karein —</option>' + tmAllTests.map(t => `<option value="${t.id}">[${t.classValue}] ${tmEsc(t.title)}</option>`).join('');
+      if (prev) sel.value = prev;
+    }
+
+    window.tmChangeClass = async (id, cls) => {
+      try { await updateDoc(doc(db, 'tests', id), { classValue: cls, updatedAt: serverTimestamp() }); }
+      catch (e) { alert('Error: ' + e.message); }
+    };
+    window.tmTogglePub = async (id, val) => {
+      try { await updateDoc(doc(db, 'tests', id), { published: val, updatedAt: serverTimestamp() }); }
+      catch (e) { alert('Error: ' + e.message); }
+    };
+    window.tmEditTest = (id) => {
+      const t = tmAllTests.find(x => x.id === id); if (!t) return;
+      $id('tm-test-id').value = id; $id('tm-title').value = t.title; $id('tm-subject').value = t.subject || '';
+      $id('tm-class').value = t.classValue; $id('tm-duration').value = t.duration;
+      $id('tm-published').checked = !!t.published; $id('tm-show-answers').checked = t.showAnswers !== false;
+      tmQuestions = JSON.parse(JSON.stringify(t.questions || [])); tmRenderQ();
+      $id('tm-edit-name').textContent = t.title; $id('tm-edit-banner').classList.remove('hidden');
+      $id('tm-save-label').textContent = 'Save Changes';
+      tmShowTab('create'); $id('test-manager').scrollIntoView({ behavior: 'smooth' });
+    };
+    window.tmDuplicate = async (id) => {
+      const t = tmAllTests.find(x => x.id === id); if (!t) return;
+      const cls = prompt('Copy kis class ke liye? (9th / 10th / 11th / 12th)', t.classValue);
+      if (!cls || !['9th','10th','11th','12th'].includes(cls.trim())) return;
+      const { id: _id, ...rest } = t;
+      try { await addDoc(collection(db, 'tests'), { ...rest, title: t.title + ' (Copy)', classValue: cls.trim(), published: false, createdAt: serverTimestamp(), updatedAt: serverTimestamp() }); alert('Copy ban gayi (Draft).'); }
+      catch (e) { alert('Error: ' + e.message); }
+    };
+    window.tmDeleteTest = async (id) => {
+      const t = tmAllTests.find(x => x.id === id);
+      if (!confirm(`"${t?.title}" permanently delete karein?`)) return;
+      try { await deleteDoc(doc(db, 'tests', id)); } catch (e) { alert('Error: ' + e.message); }
+    };
+    async function tmBulk(val) {
+      const arr = tmFiltered(); if (!arr.length) return;
+      if (!confirm(`${arr.length} test(s) ${val ? 'publish' : 'hide'} karein?`)) return;
+      try { await Promise.all(arr.map(t => updateDoc(doc(db, 'tests', t.id), { published: val }))); }
+      catch (e) { alert('Error: ' + e.message); }
+    }
+    $id('tm-bulk-pub').addEventListener('click', () => tmBulk(true));
+    $id('tm-bulk-unpub').addEventListener('click', () => tmBulk(false));
+
+    // ---- Results ----
+    window.tmOpenResults = (id) => { $id('tm-res-test').value = id; tmShowTab('results'); };
+    $id('tm-res-test').addEventListener('change', tmLoadResults);
+    async function tmLoadResults() {
+      const id = $id('tm-res-test').value; const body = $id('tm-res-body'); const stats = $id('tm-res-stats');
+      tmResultsCache = [];
+      if (!id) { body.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-400 font-bold">Upar se test select karein.</td></tr>'; stats.innerHTML = ''; return; }
+      body.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Loading...</td></tr>';
+      try {
+        const snap = await getDocs(query(collection(db, 'test_results'), where('testId', '==', id)));
+        tmResultsCache = snap.docs.map(d => d.data()).sort((a, b) => b.percentage - a.percentage || (a.timeTakenSec || 0) - (b.timeTakenSec || 0));
+        const n = tmResultsCache.length;
+        const avg = n ? Math.round(tmResultsCache.reduce((s, r) => s + r.percentage, 0) / n) : 0;
+        const top = n ? tmResultsCache[0].percentage : 0;
+        stats.innerHTML = [['Attempts', n], ['Average', avg + '%'], ['Highest', top + '%']].map(([k, v]) => `<div class="bg-[#F3E9CC]/50 rounded-xl p-3 text-center"><div class="text-[10px] font-bold uppercase text-slate-500">${k}</div><div class="text-lg font-extrabold text-[#0B1A3A]">${v}</div></div>`).join('');
+        body.innerHTML = n ? tmResultsCache.map((r, i) => `
+          <tr class="hover:bg-slate-50">
+            <td class="p-3 font-bold text-[#B8952B]">${i + 1}</td>
+            <td class="p-3"><div class="font-bold text-[#0B1A3A]">${tmEsc(r.name)}</div><div class="text-[11px] text-slate-400">${tmEsc(r.email)}</div></td>
+            <td class="p-3 font-bold">${r.score}/${r.total}</td>
+            <td class="p-3 font-extrabold ${r.percentage >= 50 ? 'text-emerald-600' : 'text-red-600'}">${r.percentage}%</td>
+            <td class="p-3 text-xs">${Math.floor((r.timeTakenSec || 0) / 60)}m ${(r.timeTakenSec || 0) % 60}s</td>
+            <td class="p-3 text-xs text-slate-500">${r.submittedAt ? new Date(r.submittedAt.seconds * 1000).toLocaleString('en-PK') : '-'}</td>
+          </tr>`).join('') : '<tr><td colspan="6" class="p-6 text-center text-slate-400 font-bold">Abhi kisi student ne ye test nahi diya.</td></tr>';
+      } catch (e) { body.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-red-500 font-bold">Error: ${tmEsc(e.message)}</td></tr>`; }
+    }
+    $id('tm-res-csv').addEventListener('click', () => {
+      if (!tmResultsCache.length) return alert('Export ke liye pehle koi result load karein.');
+      const rows = [['Rank','Name','Email','Class','Test','Score','Total','Percentage','Time (sec)','Date']].concat(
+        tmResultsCache.map((r, i) => [i + 1, r.name, r.email, r.classValue, r.testTitle, r.score, r.total, r.percentage, r.timeTakenSec, r.submittedAt ? new Date(r.submittedAt.seconds * 1000).toLocaleString('en-PK') : '']));
+      const csv = '﻿' + rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      a.download = 'test-results.csv'; a.click();
+    });
+
+    function tmInit() {
+      if (tmStarted) return; tmStarted = true;
+      tmShowTab('create'); tmPaintFilter(); tmRenderQ();
+      onSnapshot(query(collection(db, 'tests'), orderBy('createdAt', 'desc')), (snap) => {
+        tmAllTests = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        tmRenderTests();
+      }, (err) => console.error('tests listener', err));
+    }
+
+    // ============================================
+    // 5. AUTHENTICATION LOGIC
+    // ============================================
+    document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById('admin-username').value.trim();
+      const passwordInput = document.getElementById('admin-password').value;
+      try {
+        await signInWithEmailAndPassword(auth, emailInput, passwordInput);
+      } catch (err) {
+        alert("Login failed: email ya password ghalat hai.");
+      }
+    });
+
+    document.getElementById('admin-logout-btn').addEventListener('click', () => signOut(auth));
+
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.email === FIREBASE_ADMIN_EMAIL) {
+        loginCard.classList.add('hidden');
+        panelCard.classList.remove('hidden');
+        
+        fetchClassLinks("9th");
+        fetchSupplyClassLinks("9th"); 
+        
+        loadUsers();
+        tmInit();
+      } else {
+        if (user) {
+          alert("SECURITY ALERT: This account is not authorized for the Admin Panel.");
+          signOut(auth);
+        }
+        loginCard.classList.remove('hidden');
+        panelCard.classList.add('hidden');
+        document.getElementById('admin-login-form').reset();
+      }
+    });
+  </script>
+</body>
+</html>

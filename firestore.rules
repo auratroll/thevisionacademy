@@ -1,0 +1,38 @@
+rules_version = '2';
+// The Vision Academy — Firestore Security Rules
+// Firebase Console → Firestore Database → Rules mein paste karke "Publish" karein.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin()  { return signedIn() && request.auth.token.email == "auratroll82009@gmail.com"; }
+
+    // Public website content — sab parh sakte hain, sirf admin likh sakta hai
+    match /site_updates/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /materials/{id}        { allow read: if true; allow write: if isAdmin(); }
+    match /supply_materials/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /settings/{id}         { allow read: if true; allow write: if isAdmin(); }
+
+    // Student profiles — student apna, admin sab
+    match /users/{uid} {
+      allow read:  if isAdmin() || (signedIn() && request.auth.uid == uid);
+      allow write: if signedIn() && request.auth.uid == uid;
+    }
+
+    // Online tests — logged-in students sirf PUBLISHED tests parh sakte hain
+    match /tests/{id} {
+      allow read:  if isAdmin() || (signedIn() && resource.data.published == true);
+      allow write: if isAdmin();
+    }
+
+    // Test results — student sirf apna result bana/dekh sakta hai, admin sab
+    match /test_results/{id} {
+      allow create: if signedIn()
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.score is int
+                    && request.resource.data.score <= request.resource.data.total;
+      allow read:   if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+  }
+}
